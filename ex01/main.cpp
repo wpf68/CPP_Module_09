@@ -17,7 +17,7 @@ int main(int argc, char **argv)
     (void) argv;
     if (argc != 2)
     {
-        std::cerr << "Error" << std::endl;
+        std::cerr << RED "Error" NONE << std::endl;
         return 1;
     }
 
@@ -25,11 +25,11 @@ int main(int argc, char **argv)
 
     try
     {
-        std::cout << polish.calcPolish() << std::endl;
+        std::cout << polish.calcPolish() << NONE << std::endl;
     }
     catch(std::string e)
     {
-        std::cerr << e << '\n';
+        std::cerr << RED << e << NONE "\n";
     }
     
 

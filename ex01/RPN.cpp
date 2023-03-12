@@ -23,7 +23,9 @@ Rpn::Rpn(char *argc) {
         if (pos == std::string::npos)
             break;
         std::string temp2 = temp.substr(pos + 1);
-        _datas.push(temp2);
+        if (temp2 != "")
+            _datas.push(temp2);
+        //std::cout << "==" << temp2 << "==\n"; 
         temp.erase(pos);
     }
     _datas.push(temp);
@@ -40,7 +42,7 @@ std::stack<std::string> Rpn::getData() const {
 float Rpn::calcPolish() {
     float   result = 0;
     int     nb = 0;
-    std::string error = "Error";
+    std::string error = "\nError";
     std::string errorByZero = "\nError By Zero";
 
     testAlpha(_datas.top());
@@ -57,7 +59,7 @@ float Rpn::calcPolish() {
             throw error;
 
         testOperation(_datas.top());    
-        std::cout << result << " " << _datas.top() << " " << nb << " = ";  // -- test
+        std::cout << YELLOW << result << RED " " << _datas.top() << " " CYANE << nb << WHITE " = ";  // -- test
         if (_datas.top() == "-")
             result -= nb;
         else if (_datas.top() == "+")
@@ -72,11 +74,11 @@ float Rpn::calcPolish() {
         }
         else
             throw error;
-        std::cout << result << std::endl;  //  test ---
+        std::cout << YELLOW << result << std::endl;  //  test ---
         _datas.pop();
 
     }
-
+    std::cout << GREEN;
     return result;
 }
 

@@ -62,32 +62,32 @@ PmergeMe::~PmergeMe() {
 
 void    PmergeMe::displaySet(unsigned int nb, char **datas)
 {
-    std::cout << "Before: ";
+    std::cout << GREEN "Before: " NONE;
     for (unsigned int i = 1; i <= nb; i++)
     {
         if (i == 1)
             std::cout << datas[i];
         else
-            std::cout << " - " <<  datas[i];
+            std::cout << "  " <<  datas[i];
     } 
-    std::cout << "\nAfter (set)  : ";
+    std::cout << GREEN "\nAfter (set)  : " NONE;
     for (std::set<unsigned int>::iterator it = _contSet.begin(); it != _contSet.end(); it++)
     {
         if (it == _contSet.begin())
             std::cout << *it;
         else
-            std::cout << " - " <<  *it;
+            std::cout << "  " <<  *it;
     }
-    std::cout << "\nAfter (list) : ";
+    std::cout << GREEN "\nAfter (list) : " NONE;
     for (std::list<unsigned int>::iterator it = _contList.begin(); it != _contList.end(); it++)
     {
         if (it == _contList.begin())
             std::cout << *it;
         else
-            std::cout << " - " <<  *it;
+            std::cout << "  " <<  *it;
     }
-    std::cout << "\nTime to process a range of " << nb  << " elements with std::set  : " << _timeSet << " us" << std::endl;
-    std::cout << "Time to process a range of " << nb  << " elements with std::list : " << _timeList << " us" << std::endl;        
+    std::cout <<  YELLOW "\nTime to process a range of " CYANE << nb  << YELLOW " elements with std::set  : " GREEN << _timeSet << " us" << std::endl;
+    std::cout << YELLOW "Time to process a range of " CYANE << nb  << YELLOW " elements with std::list : " GREEN << _timeList << " us" NONE << std::endl;        
 }
 
 

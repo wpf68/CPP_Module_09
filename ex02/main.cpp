@@ -16,7 +16,7 @@ int main(int argc, char **argv)
 {
     if (argc == 1)
     {
-        std::cerr << "Error arg\n";
+        std::cerr << RED "Error arg\n" NONE;
         return 1;
     }
 
@@ -27,7 +27,7 @@ int main(int argc, char **argv)
     }
     catch(std::string const & e)
     {
-        std::cerr << e << '\n';
+        std::cerr << RED << e << NONE << '\n';
     }
     
     
