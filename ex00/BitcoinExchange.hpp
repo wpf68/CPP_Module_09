@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   BitcoinExchange.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pwolff <pwolff@student.42mulhouse.fr>      +#+  +:+       +#+        */
+/*   By: pwolff <pwolff@student.42mulhouse.fr>>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 10:52:37 by pwolff            #+#    #+#             */
-/*   Updated: 2023/03/12 11:54:59 by pwolff           ###   ########.fr       */
+/*   Updated: 2023/03/12 16:03:52 by pwolff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include <map>
 #include <exception>
 #include <cstdlib>
+#include <iomanip> 
 
 # ifndef COLOR
 #  define COLOR
@@ -36,7 +37,8 @@
 #  define END		"\033[0m"
 # endif
 
-#define FICHIER_CSV "pfichier.csv"
+#define FICHIER_CSV "fichier.csv"
+#define FLOAT_MAX   999999
 
 class BitcoinExchange
 {
@@ -51,6 +53,8 @@ private:
     BitcoinExchange(BitcoinExchange const &);
 
     BitcoinExchange operator=(BitcoinExchange const &);
+
+    void    displayDatas();
 
     std::map<std::string, float>    _datas;
     std::string                     _fichierTxt;
