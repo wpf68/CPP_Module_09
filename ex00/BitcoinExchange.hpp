@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   BitcoinExchange.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pwolff <pwolff@student.42mulhouse.fr>>     +#+  +:+       +#+        */
+/*   By: pwolff <pwolff@student.42mulhouse.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 10:52:37 by pwolff            #+#    #+#             */
-/*   Updated: 2023/03/12 16:03:52 by pwolff           ###   ########.fr       */
+/*   Updated: 2023/03/13 13:07:33 by pwolff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ private:
     BitcoinExchange operator=(BitcoinExchange const &);
 
     void    displayDatas();
+    bool    testDate(std::string const &date);
 
     std::map<std::string, float>    _datas;
     std::string                     _fichierTxt;
