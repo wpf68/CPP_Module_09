@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   BitcoinExchange.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pwolff <pwolff@student.42mulhouse.fr>      +#+  +:+       +#+        */
+/*   By: pwolff <pwolff@student.42mulhouse.fr>>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 10:52:37 by pwolff            #+#    #+#             */
-/*   Updated: 2023/03/13 13:07:33 by pwolff           ###   ########.fr       */
+/*   Updated: 2023/03/14 15:54:07 by pwolff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@
 #  define END		"\033[0m"
 # endif
 
-#define FICHIER_CSV "fichier.csv"
+#define FICHIER_CSV "data.csv"
 #define FLOAT_MAX   999999
 
 class BitcoinExchange

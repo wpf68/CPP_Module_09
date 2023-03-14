@@ -53,16 +53,16 @@ PmergeMe::PmergeMe(unsigned int nb, char **datas) : _timeSet(0), _timeList(0) {
     _timeList = (end.tv_sec - start.tv_sec) +
                 (end.tv_nsec - start.tv_nsec) / BILLION;
 
-    std::cout << "Constructor\n";
+    //std::cout << "Constructor\n";
 }
 
 PmergeMe::~PmergeMe() {
-    std::cout << "Destructor\n";
+    //std::cout << "Destructor\n";
 }
 
 void    PmergeMe::displaySet(unsigned int nb, char **datas)
 {
-    std::cout << GREEN "Before: " NONE;
+    std::cout << GREEN "Before:        " NONE;
     for (unsigned int i = 1; i <= nb; i++)
     {
         if (i == 1)

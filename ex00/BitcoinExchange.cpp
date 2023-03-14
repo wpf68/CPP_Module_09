@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   BitcoinExchange.cpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pwolff <pwolff@student.42mulhouse.fr>      +#+  +:+       +#+        */
+/*   By: pwolff <pwolff@student.42mulhouse.fr>>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 10:52:51 by pwolff            #+#    #+#             */
-/*   Updated: 2023/03/13 13:16:24 by pwolff           ###   ########.fr       */
+/*   Updated: 2023/03/14 16:12:31 by pwolff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,24 +31,24 @@ BitcoinExchange::BitcoinExchange(char *fichierTxt) : _fichierTxt(fichierTxt) {
     if (!monFlux)
         throw errorOpen;
     
-
+    getline(monFlux, buffer); 
     while (getline(monFlux, buffer))
     {
         size_t  i = buffer.find("\r");  // 1 heure ....
         if (i != std::string::npos)
             buffer.erase(i);
 
-        i = buffer.find("| ");
+        i = buffer.find(",");
         if (i == std::string::npos)
             throw errorFormat;
-        val = atof(buffer.substr(i + 2).c_str());
+        val = atof(buffer.substr(i + 1).c_str());
         if (val > FLOAT_MAX)
             throw errorTooLargeNumber;
         if (val < 0)
             throw errorNegativeNumber;
 
         if (i)
-            buffer.erase(i - 1);
+            buffer.erase(i);
         else
             throw errorBadInput;
 
@@ -56,13 +56,13 @@ BitcoinExchange::BitcoinExchange(char *fichierTxt) : _fichierTxt(fichierTxt) {
         
     }
     monFlux.close();
-    std::cout << YELLOW "\n** Constructor ** \n" NONE; 
+    // std::cout << YELLOW "\n** Constructor ** \n" NONE; 
     displayDatas();
     
 }
 
 BitcoinExchange::~BitcoinExchange() {
-    std::cout << YELLOW "\n** Destructor ** \n" NONE; 
+    // std::cout << YELLOW "\n** Destructor ** \n" NONE; 
 }
 
 
@@ -81,7 +81,7 @@ void    BitcoinExchange::calcValueBitcoin(){
 
     // Traitement fichier .txt ---------------------
 
-    monFlux.open(_fichierTxt);
+    monFlux.open(_fichierTxt.c_str());
     if (!monFlux)
         throw errorOpen;
 
@@ -125,7 +125,7 @@ void    BitcoinExchange::calcValueBitcoin(){
             std::cout << RED <<  errorBadInput << buffer << NONE << std::endl;
             continue;
         }
-        std::cout << buffer << " => " << nbBitcoin << " = " << val * nbBitcoin << std::endl;
+        std::cout << std::setprecision(2) << buffer << " => " << nbBitcoin <<  " = " << val * nbBitcoin << std::endl;
         
 
         
@@ -156,8 +156,7 @@ bool    BitcoinExchange::testDate(std::string const &date){
         {
             status = true;
             break;
-        }
-            
+        }   
     }
     return status;
 }
