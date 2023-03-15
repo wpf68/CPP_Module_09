@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   BitcoinExchange.cpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pwolff <pwolff@student.42mulhouse.fr>>     +#+  +:+       +#+        */
+/*   By: pwolff <pwolff@student.42mulhouse.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 10:52:51 by pwolff            #+#    #+#             */
-/*   Updated: 2023/03/14 16:12:31 by pwolff           ###   ########.fr       */
+/*   Updated: 2023/03/15 11:42:36 by pwolff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,8 +122,18 @@ void    BitcoinExchange::calcValueBitcoin(){
             val = _datas[buffer];
         else
         {
-            std::cout << RED <<  errorBadInput << buffer << NONE << std::endl;
-            continue;
+            if (testDateValide(buffer))
+            {
+
+                 std::cout << CYANE <<  "Date OK " << buffer << NONE << std::endl;
+               
+            }
+            else
+            {
+                std::cout << RED <<  errorBadInput << buffer << NONE << std::endl;
+                continue;
+            }
+            
         }
         std::cout << std::setprecision(2) << buffer << " => " << nbBitcoin <<  " = " << val * nbBitcoin << std::endl;
         
@@ -159,4 +169,47 @@ bool    BitcoinExchange::testDate(std::string const &date){
         }   
     }
     return status;
+}
+
+bool    BitcoinExchange::testDateValide(std::string const &date){
+    std::string     temp = date;
+    std::string     temp2;
+    size_t          i;
+    int             val;
+
+    //std::cout << "---" << temp << std::endl;
+
+    // ******  Jour  ******
+
+    i = temp.rfind('-');
+    temp2 = temp.substr(i + 1);
+    temp.erase(i);
+    //std::cout << "---" << temp2 << "--" << temp << std::endl;
+    val = atoi(temp2.c_str());
+    std::cout << "---" << val << "--" << std::endl;
+    if (val < 1 || val > 31)
+        return false;
+        
+
+    // ******  Mois  ******
+
+    i = temp.rfind('-');
+    temp2 = temp.substr(i + 1);
+    temp.erase(i);
+    //std::cout << "---" << temp2 << "--" << temp << std::endl;
+    val = atoi(temp2.c_str());
+    std::cout << "---" << val << "--" << std::endl;
+    if (val < 1 || val > 12)
+        return false;
+
+
+
+    // ******  Annee  ******
+
+    val = atoi(temp.c_str());
+    std::cout << "---" << val << "--" << std::endl;
+    if (val < 2000 || val > 2100)
+        return false;   
+
+    return true;
 }

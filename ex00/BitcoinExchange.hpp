@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   BitcoinExchange.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pwolff <pwolff@student.42mulhouse.fr>>     +#+  +:+       +#+        */
+/*   By: pwolff <pwolff@student.42mulhouse.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 10:52:37 by pwolff            #+#    #+#             */
-/*   Updated: 2023/03/14 15:54:07 by pwolff           ###   ########.fr       */
+/*   Updated: 2023/03/15 10:20:51 by pwolff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ private:
 
     void    displayDatas();
     bool    testDate(std::string const &date);
+    bool    testDateValide(std::string const &date);
 
     std::map<std::string, float>    _datas;
     std::string                     _fichierTxt;
