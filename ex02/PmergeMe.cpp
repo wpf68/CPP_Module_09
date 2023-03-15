@@ -33,6 +33,8 @@ PmergeMe::PmergeMe(unsigned int nb, char **datas) : _timeSet(0), _timeList(0) {
     clock_gettime(CLOCK_REALTIME, &start);
     for (unsigned int i = 1; i <= nb; i++)
     {
+        std::list<unsigned int>     tempList;
+
         if (!testNum(datas[i]))
             throw   error;
         // test doublons ----------------------
@@ -46,9 +48,16 @@ PmergeMe::PmergeMe(unsigned int nb, char **datas) : _timeSet(0), _timeList(0) {
             }           
         }
         if (test)
-            _contList.push_back(atoi(datas[i]));
+        {
+            //_contList.push_back(atoi(datas[i]));
+            tempList.push_back(atoi(datas[i]));
+            _contList.merge(tempList);
+            tempList.clear();
+
+        }
+            
     }
-    _contList.sort();
+    //_contList.sort();
     clock_gettime(CLOCK_REALTIME, &end);
     _timeList = (end.tv_sec - start.tv_sec) +
                 (end.tv_nsec - start.tv_nsec) / BILLION;
