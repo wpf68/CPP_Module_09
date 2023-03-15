@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   BitcoinExchange.cpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pwolff <pwolff@student.42mulhouse.fr>      +#+  +:+       +#+        */
+/*   By: pwolff <pwolff@student.42mulhouse.fr>>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 10:52:51 by pwolff            #+#    #+#             */
-/*   Updated: 2023/03/15 11:42:36 by pwolff           ###   ########.fr       */
+/*   Updated: 2023/03/15 17:47:57 by pwolff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ BitcoinExchange::BitcoinExchange(char *fichierTxt) : _fichierTxt(fichierTxt) {
     std::string     buffer;
     std::string     temp;
     float           val;
+
+    std::string     parsingCsv;
     
 
     // Traitement fichier .csc ---------------------
@@ -31,19 +33,28 @@ BitcoinExchange::BitcoinExchange(char *fichierTxt) : _fichierTxt(fichierTxt) {
     if (!monFlux)
         throw errorOpen;
     
-    getline(monFlux, buffer); 
+    getline(monFlux, buffer);
+    size_t  parsing = buffer.rfind("exchange");
+    buffer.erase(parsing);
+    parsingCsv = buffer.substr(4);
+    //std::cout << "parsingCsv =" << parsingCsv << "**\n";
+    // exit (0); 
+
+
+
+
     while (getline(monFlux, buffer))
     {
         size_t  i = buffer.find("\r");  // 1 heure ....
         if (i != std::string::npos)
             buffer.erase(i);
 
-        i = buffer.find(",");
+        i = buffer.find(parsingCsv.c_str());
         if (i == std::string::npos)
             throw errorFormat;
-        val = atof(buffer.substr(i + 1).c_str());
-        if (val > FLOAT_MAX)
-            throw errorTooLargeNumber;
+        val = atof(buffer.substr(i + parsingCsv.size()).c_str());
+        // if (val > FLOAT_MAX)
+        //     throw errorTooLargeNumber;
         if (val < 0)
             throw errorNegativeNumber;
 
@@ -51,6 +62,25 @@ BitcoinExchange::BitcoinExchange(char *fichierTxt) : _fichierTxt(fichierTxt) {
             buffer.erase(i);
         else
             throw errorBadInput;
+
+
+        // size_t  i = buffer.find("\r");  // 1 heure ....
+        // if (i != std::string::npos)
+        //     buffer.erase(i);
+
+        // i = buffer.find(",");
+        // if (i == std::string::npos)
+        //     throw errorFormat;
+        // val = atof(buffer.substr(i + 1).c_str());
+        // if (val > FLOAT_MAX)
+        //     throw errorTooLargeNumber;
+        // if (val < 0)
+        //     throw errorNegativeNumber;
+
+        // if (i)
+        //     buffer.erase(i);
+        // else
+        //     throw errorBadInput;
 
         _datas.insert(std::pair<std::string, float>(buffer, val));
         
@@ -122,10 +152,21 @@ void    BitcoinExchange::calcValueBitcoin(){
             val = _datas[buffer];
         else
         {
-            if (testDateValide(buffer))
+            if (testDateValideReal(buffer))
             {
+                temp = searchValueBefore(buffer);
+                //std::cout << CYANE <<  "Date OK " << buffer << NONE  << " -- temp : " << temp << std::endl;
 
-                 std::cout << CYANE <<  "Date OK " << buffer << NONE << std::endl;
+                if (temp != "")
+                {
+                val = _datas[temp];
+                }
+                else
+                {
+                std::cout << RED <<  errorBadInput << buffer << NONE << std::endl;
+                continue;
+
+                }
                
             }
             else
@@ -177,39 +218,96 @@ bool    BitcoinExchange::testDateValide(std::string const &date){
     size_t          i;
     int             val;
 
-    //std::cout << "---" << temp << std::endl;
-
-    // ******  Jour  ******
-
+    // ******  Day  ******
     i = temp.rfind('-');
     temp2 = temp.substr(i + 1);
     temp.erase(i);
-    //std::cout << "---" << temp2 << "--" << temp << std::endl;
     val = atoi(temp2.c_str());
-    std::cout << "---" << val << "--" << std::endl;
     if (val < 1 || val > 31)
         return false;
         
-
-    // ******  Mois  ******
-
+    // ******  Month  ******
     i = temp.rfind('-');
     temp2 = temp.substr(i + 1);
     temp.erase(i);
-    //std::cout << "---" << temp2 << "--" << temp << std::endl;
     val = atoi(temp2.c_str());
-    std::cout << "---" << val << "--" << std::endl;
     if (val < 1 || val > 12)
         return false;
 
-
-
-    // ******  Annee  ******
-
+    // ******  Year  ******
     val = atoi(temp.c_str());
-    std::cout << "---" << val << "--" << std::endl;
     if (val < 2000 || val > 2100)
         return false;   
 
     return true;
+}
+
+bool    BitcoinExchange::testDateValideReal(std::string const &date){
+    std::string     temp = date;
+    std::string     temp2;
+    size_t          i;
+    //int             val;
+    int             day;
+    int             month;
+    int             year;
+    int             nbDay[] = {31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+
+
+    // ******  Day  ******
+    i = temp.rfind('-');
+    temp2 = temp.substr(i + 1);
+    temp.erase(i);
+    day = atoi(temp2.c_str());
+    
+        
+    // ******  Month  ******
+    i = temp.rfind('-');
+    temp2 = temp.substr(i + 1);
+    temp.erase(i);
+    month = atoi(temp2.c_str());
+    if (month < 1 || month > 12)
+        return false;
+
+    // ******  Year  ******
+    year = atoi(temp.c_str());
+    if (year < 2000 || year > 2100)
+        return false;
+
+    if (day < 1 || day > nbDay[month - 1])
+            return false;
+    
+    //std::cout << "test bissextile\n";
+    if (!(year % 4 == 0))
+    {
+        if (!(year % 100 == 0  && year % 400 != 0))
+        {
+            if (day > 28)
+                return false;
+        }
+
+    }
+    return true;
+}
+
+
+
+std::string BitcoinExchange::searchValueBefore(std::string const &date) {
+    std::map<std::string, float>::iterator itBefore = _datas.end();
+    for (std::map<std::string, float>::iterator it = _datas.begin(); it != _datas.end(); it++)
+    {
+        // std::cout << "date : " << date << "it = " << it->first << std::endl;
+        // if (itBefore != _datas.end())
+        //     std::cout << "itbefore = " << itBefore->first << std::endl;
+        if (date > it->first)
+        {
+            itBefore = it;
+        }
+        else
+        {
+            if (itBefore != _datas.end())
+                return (itBefore->first);
+            return "";
+        }
+    }
+    return (itBefore->first);
 }

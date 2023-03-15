@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   BitcoinExchange.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pwolff <pwolff@student.42mulhouse.fr>      +#+  +:+       +#+        */
+/*   By: pwolff <pwolff@student.42mulhouse.fr>>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 10:52:37 by pwolff            #+#    #+#             */
-/*   Updated: 2023/03/15 10:20:51 by pwolff           ###   ########.fr       */
+/*   Updated: 2023/03/15 17:48:29 by pwolff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@
 # endif
 
 #define FICHIER_CSV "data.csv"
-#define FLOAT_MAX   999999
+#define FLOAT_MAX   1000
 
 class BitcoinExchange
 {
@@ -54,9 +54,11 @@ private:
 
     BitcoinExchange operator=(BitcoinExchange const &);
 
-    void    displayDatas();
-    bool    testDate(std::string const &date);
-    bool    testDateValide(std::string const &date);
+    void        displayDatas();
+    bool        testDate(std::string const &date);
+    bool        testDateValide(std::string const &date);
+    bool        testDateValideReal(std::string const &date);
+    std::string searchValueBefore(std::string const &date);
 
     std::map<std::string, float>    _datas;
     std::string                     _fichierTxt;
