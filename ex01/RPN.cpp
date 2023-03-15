@@ -13,7 +13,7 @@
 #include "RPN.hpp"
 
 Rpn::Rpn(char *argc) {
-    std::cout << "Constructor Rpn" << std::endl;
+    //std::cout << "Constructor Rpn" << std::endl;
     std::string temp = argc;
 
     //std::cout << "temp : --" << temp << "--" << std::endl;
@@ -32,7 +32,7 @@ Rpn::Rpn(char *argc) {
 }
 
 Rpn::~Rpn() {
-    std::cout << "Destructor Rpn" << std::endl;
+    //std::cout << "Destructor Rpn" << std::endl;
 }
 
 std::stack<std::string> Rpn::getData() const {
