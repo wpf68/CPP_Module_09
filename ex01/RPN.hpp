@@ -55,8 +55,8 @@ private:
 
     Rpn &operator=(Rpn const &);
 
-    void    testAlpha(std::string &alpha) const;
-    void    testOperation(std::string &alpha) const;
+    bool    testAlpha(std::string &alpha) const;
+    bool    testOperation(std::string &alpha) const;
 
     std::stack<std::string>   _datas;
 };

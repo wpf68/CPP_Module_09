@@ -24,11 +24,26 @@ Rpn::Rpn(char *argc) {
             break;
         std::string temp2 = temp.substr(pos + 1);
         if (temp2 != "")
-            _datas.push(temp2);
-        //std::cout << "==" << temp2 << "==\n"; 
+        {
+            if (temp2.size() == 1)
+                _datas.push(temp2);
+            else 
+            {
+                _datas.push(temp2.substr(1));
+                temp2.erase(1);
+                _datas.push(temp2);
+            }
+        }
         temp.erase(pos);
     }
-    _datas.push(temp);
+    if (temp.size() == 1)
+        _datas.push(temp);
+    else 
+    {
+        _datas.push(temp.substr(1));
+        temp.erase(1);
+        _datas.push(temp);
+    }
 }
 
 Rpn::~Rpn() {
@@ -40,72 +55,98 @@ std::stack<std::string> Rpn::getData() const {
 }
 
 float Rpn::calcPolish() {
-    float   result = 0;
-    int     nb = 0;
-    std::string error = "\nError";
-    std::string errorByZero = "\nError By Zero";
+    int result = 0;
+    int result2 = 0;
+    int nb = 0;
 
-    testAlpha(_datas.top());
-    result = static_cast<float>(atoi(_datas.top().c_str()));
+    std::stack<std::string>     temp;
+    std::string                 error = "\nError";
+    std::string                 errorByZero = "\nError By Zero";
+
+    if (testAlpha(_datas.top()))
+        result = static_cast<float>(atoi(_datas.top().c_str()));
+    else 
+        throw error;
 
     _datas.pop();
     while (!_datas.empty())
     {
-        testAlpha(_datas.top());
-        nb = atoi(_datas.top().c_str());
-        
-        _datas.pop();
-        if (_datas.empty())
-            throw error;
 
-        testOperation(_datas.top());    
-        std::cout << YELLOW << result << RED " " << _datas.top() << " " CYANE << nb << WHITE " = ";  // -- test
-        if (_datas.top() == "-")
-            result -= nb;
-        else if (_datas.top() == "+")
-            result += nb;
-        else if (_datas.top() == "*")
-            result *= nb;
-        else if (_datas.top() == "/")
+        if (!(testOperation(_datas.top()) || testAlpha(_datas.top())))
+            throw error;
+        if (testOperation(_datas.top()) && temp.empty())
+            throw error;
+        if (testOperation(_datas.top()))
         {
-            if (!nb)
-                throw errorByZero;
-            result /= nb;
+            if (temp.size() == 1)
+            {
+                nb = atoi(temp.top().c_str());
+                temp.pop();
+                std::cout << YELLOW << result << RED " " << _datas.top() << " " CYANE << nb << WHITE " = ";  // -- test
+
+                if (_datas.top() == "-")
+                    result -= nb;
+                else if (_datas.top() == "+")
+                    result += nb;
+                else if (_datas.top() == "*")
+                    result *= nb;
+                else if (_datas.top() == "/")
+                {
+                    if (!nb)
+                        throw errorByZero;
+                    result /= nb;
+                }
+                std::cout << YELLOW << result << std::endl;  //  test ---
+                _datas.pop();
+            }
+            else
+            {
+                nb = atoi(temp.top().c_str());
+                temp.pop();
+                result2 = atoi(temp.top().c_str());
+                temp.pop();
+                std::cout << YELLOW << result2 << RED " " << _datas.top() << " " CYANE << nb << WHITE " = ";  // -- test
+                if (_datas.top() == "-")
+                    result2 = result2 - nb;
+                else if (_datas.top() == "+")
+                    result2 = result2 + nb;
+                else if (_datas.top() == "*")
+                    result2 = result2 * nb;
+                else if (_datas.top() == "/")
+                {
+                    if (!nb)
+                        throw errorByZero;
+                    result2 = result2 / nb;
+                }
+                std::cout << YELLOW << result2 << std::endl;  //  test ---
+                _datas.pop();
+                std::string in(std::to_string(result2));
+                temp.push((in));              
+
+            }
+
         }
         else
-            throw error;
-        std::cout << YELLOW << result << std::endl;  //  test ---
-        _datas.pop();
+        {
+            temp.push(_datas.top());
+            _datas.pop();
+        }
 
     }
     std::cout << GREEN;
     return result;
 }
 
-void    Rpn::testAlpha(std::string &alpha) const{
-    std::string error = "Error";
-    for (std::string::iterator it = alpha.begin(); it != alpha.end(); it++)
-    {
-        if (it != alpha.begin())
-        {
-            if (*it < 48 || *it > 57)
-                throw error;
-        }
-        else
-        {
-            if ((*it < 48 || *it > 57) && *it != '-')
-                throw error;
-        }
-    }
+bool    Rpn::testAlpha(std::string &alpha) const{
+    if (alpha < "0" || alpha > "9")
+        return false;
+    return true;
 }
 
-void    Rpn::testOperation(std::string &alpha) const{
-    std::string error = "Error";
-
-    if (alpha.size() != 1)
-        throw error;
-    // if (alpha != "-" && alpha != "+" && alpha != "/" && alpha != "*")
-    //     throw error;
+bool    Rpn::testOperation(std::string &alpha) const{
+    if (alpha != "-" && alpha != "+" && alpha != "/" && alpha != "*")
+        return false;
+    return true;
 }
 
 

@@ -21,6 +21,8 @@ int main(int argc, char **argv)
     }
 
     Rpn polish(argv[1]);
+    // polish.emptyRpn();
+    // exit (0);
 
     try
     {
