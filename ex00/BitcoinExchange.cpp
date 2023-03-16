@@ -6,7 +6,7 @@
 /*   By: pwolff <pwolff@student.42mulhouse.fr>>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 10:52:51 by pwolff            #+#    #+#             */
-/*   Updated: 2023/03/15 17:47:57 by pwolff           ###   ########.fr       */
+/*   Updated: 2023/03/16 15:17:02 by pwolff           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -279,7 +279,7 @@ bool    BitcoinExchange::testDateValideReal(std::string const &date){
     //std::cout << "test bissextile\n";
     if (!(year % 4 == 0))
     {
-        if (!(year % 100 == 0  && year % 400 != 0))
+        if (!(year % 100 == 0  && year % 400 != 0) && month == 2)
         {
             if (day > 28)
                 return false;
