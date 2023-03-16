@@ -39,27 +39,19 @@
 class Rpn
 {
 public:
-    Rpn(char *argc);
+    Rpn();
     ~Rpn();
 
-    std::stack<std::string> getData() const;
-    float                     calcPolish();
-
-    // pour tests
-    void    emptyRpn();
-
+    std::stack<std::string>     getData() const;
+    void                        calcPolish(char *argv);
 
 private:
-    Rpn();
     Rpn(Rpn const &);
 
     Rpn &operator=(Rpn const &);
 
-    bool    testAlpha(std::string &alpha) const;
-    bool    testOperation(std::string &alpha) const;
+    bool    testAlpha(char alpha) const;
+    bool    testOperation(char alpha) const;
 
-    std::stack<std::string>   _datas;
+    std::stack<int>   _datas;
 };
-
-    // pour tests
-std::ostream     &operator<<(std::ostream &os, Rpn const &rhs);

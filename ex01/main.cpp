@@ -12,6 +12,11 @@
 
 #include "RPN.hpp"
 
+/*
+    Test :
+    https://www.dcode.fr/notation-polonaise-inverse
+*/
+
 int main(int argc, char **argv)
 {
     if (argc != 2)
@@ -20,24 +25,16 @@ int main(int argc, char **argv)
         return 1;
     }
 
-    Rpn polish(argv[1]);
-    // polish.emptyRpn();
-    // exit (0);
+    Rpn polish;
 
     try
     {
-        std::cout << polish.calcPolish() << NONE << std::endl;
+        polish.calcPolish(argv[1]);
     }
     catch(std::string e)
     {
         std::cerr << RED << e << NONE "\n";
     }
-    
-
-    // std::cout << polish << std::endl;
-    // polish.emptyRpn();
-    
-
 
     return 0;
 }
